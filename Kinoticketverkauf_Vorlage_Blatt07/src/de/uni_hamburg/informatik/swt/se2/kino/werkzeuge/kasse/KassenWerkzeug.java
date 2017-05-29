@@ -3,6 +3,8 @@ package de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.kasse;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import de.uni_hamburg.informatik.swt.se2.kino.beobachter.Beobachtbar;
+import de.uni_hamburg.informatik.swt.se2.kino.beobachter.Beobachter;
 import de.uni_hamburg.informatik.swt.se2.kino.fachwerte.Datum;
 import de.uni_hamburg.informatik.swt.se2.kino.materialien.Kino;
 import de.uni_hamburg.informatik.swt.se2.kino.materialien.Tagesplan;
@@ -19,7 +21,7 @@ import de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.vorstellungsauswaehler.V
  * @author SE2-Team
  * @version SoSe 2017
  */
-public class KassenWerkzeug
+public class KassenWerkzeug implements Beobachter
 {
     // Das Material dieses Werkzeugs
     private Kino _kino;
@@ -31,7 +33,6 @@ public class KassenWerkzeug
     private PlatzVerkaufsWerkzeug _platzVerkaufsWerkzeug;
     private DatumAuswaehlWerkzeug _datumAuswaehlWerkzeug;
     private VorstellungsAuswaehlWerkzeug _vorstellungAuswaehlWerkzeug;
-
     /**
      * Initialisiert das Kassenwerkzeug.
      * 
@@ -49,6 +50,12 @@ public class KassenWerkzeug
         _platzVerkaufsWerkzeug = new PlatzVerkaufsWerkzeug();
         _datumAuswaehlWerkzeug = new DatumAuswaehlWerkzeug();
         _vorstellungAuswaehlWerkzeug = new VorstellungsAuswaehlWerkzeug();
+        
+        //KassenWerkzeug registrieren als Beobachter seiner
+        //Subwerkzeuge
+        _platzVerkaufsWerkzeug.setzeBeobachter(this);
+        _datumAuswaehlWerkzeug.setzeBeobachter(this);
+        _vorstellungAuswaehlWerkzeug.setzeBeobachter(this);
 
         // UI erstellen (mit eingebetteten UIs der direkten Subwerkzeuge)
         _ui = new KassenWerkzeugUI(_platzVerkaufsWerkzeug.getUIPanel(),
@@ -118,5 +125,22 @@ public class KassenWerkzeug
     private Vorstellung getAusgewaehlteVorstellung()
     {
         return _vorstellungAuswaehlWerkzeug.getAusgewaehlteVorstellung();
+    }
+
+    @Override
+    public void beachteVorstellungsAenderung()
+    {
+
+        //setzeTagesplanFuerAusgewaehltesDatum();
+        //diese richtung funktioniert nicht 
+        setzeAusgewaehlteVorstellung();
+    }
+
+    @Override
+    public void beachteDatumsAenderung()
+    {
+
+       setzeTagesplanFuerAusgewaehltesDatum();
+       setzeAusgewaehlteVorstellung();
     }
 }
