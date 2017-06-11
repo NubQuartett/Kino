@@ -18,7 +18,7 @@ public abstract class Beobachtbar {
 	}
 	
 	/**
-	 * informiert über die aenderung, aenderung gibt den typ an
+	 * informiert über die aenderung, aenderung gibt den typ der aenderung an
 	 * @param aenderung
 	 */
     public void informiereUeberAenderung(Object aenderung)
