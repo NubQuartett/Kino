@@ -10,6 +10,8 @@ import de.uni_hamburg.informatik.swt.se2.kino.materialien.Vorstellung;
 import de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.datumsauswaehler.DatumAuswaehlWerkzeug;
 import de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.platzverkauf.PlatzVerkaufsWerkzeug;
 import de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.vorstellungsauswaehler.VorstellungsAuswaehlWerkzeug;
+import de.uni_hamburg.swt.se2.kino.werkzeuge.beobachtermuster.Beobachter;
+import de.uni_hamburg.swt.se2.kino.werkzeuge.beobachtermuster.Beobachtbar;
 
 /**
  * Das Kassenwerkzeug. Mit diesem Werkzeug kann die Benutzerin oder der Benutzer
@@ -19,7 +21,7 @@ import de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.vorstellungsauswaehler.V
  * @author SE2-Team
  * @version SoSe 2017
  */
-public class KassenWerkzeug
+public class KassenWerkzeug implements Beobachter
 {
     // Das Material dieses Werkzeugs
     private Kino _kino;
@@ -50,6 +52,13 @@ public class KassenWerkzeug
         _datumAuswaehlWerkzeug = new DatumAuswaehlWerkzeug();
         _vorstellungAuswaehlWerkzeug = new VorstellungsAuswaehlWerkzeug();
 
+        
+        //KassenWerkzeug registrieren als Beobachter seiner
+        //Subwerkzeuge
+        //_platzVerkaufsWerkzeug.setzeBeobachter(this);
+        _datumAuswaehlWerkzeug.setzeBeobachter(this);
+        _vorstellungAuswaehlWerkzeug.setzeBeobachter(this);
+        
         // UI erstellen (mit eingebetteten UIs der direkten Subwerkzeuge)
         _ui = new KassenWerkzeugUI(_platzVerkaufsWerkzeug.getUIPanel(),
                 _datumAuswaehlWerkzeug.getUIPanel(),
@@ -118,5 +127,19 @@ public class KassenWerkzeug
     private Vorstellung getAusgewaehlteVorstellung()
     {
         return _vorstellungAuswaehlWerkzeug.getAusgewaehlteVorstellung();
+    }
+    
+    @Override
+    public void beachteAenderung(Object aenderung)
+    {
+    	if(aenderung instanceof Datum)
+    	{
+    	setzeTagesplanFuerAusgewaehltesDatum();
+    	}
+    	else if(aenderung instanceof Vorstellung)
+    	{
+        setzeAusgewaehlteVorstellung();
+        setzeAusgewaehlteVorstellung();
+    	}
     }
 }
