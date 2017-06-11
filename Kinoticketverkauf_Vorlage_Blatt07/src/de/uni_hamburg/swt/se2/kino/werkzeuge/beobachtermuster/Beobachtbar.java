@@ -17,7 +17,10 @@ public abstract class Beobachtbar {
 		_beobachter = new HashSet<Beobachter>();
 	}
 	
-	
+	/**
+	 * informiert über die aenderung, aenderung gibt den typ an
+	 * @param aenderung
+	 */
     public void informiereUeberAenderung(Object aenderung)
     {
         for(Beobachter b: _beobachter)
