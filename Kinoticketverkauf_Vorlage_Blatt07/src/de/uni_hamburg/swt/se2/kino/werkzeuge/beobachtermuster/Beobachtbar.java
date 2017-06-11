@@ -22,7 +22,6 @@ public abstract class Beobachtbar {
     {
         for(Beobachter b: _beobachter)
         {
-            //b.beachteDatumsAenderung();
             b.beachteAenderung(aenderung);
         }
     }
