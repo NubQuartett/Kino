@@ -139,7 +139,6 @@ public class KassenWerkzeug implements Beobachter
     	else if(aenderung instanceof Vorstellung)
     	{
         setzeAusgewaehlteVorstellung();
-        setzeAusgewaehlteVorstellung();
     	}
     }
 }
